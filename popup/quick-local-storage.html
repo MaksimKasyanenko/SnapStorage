@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="quick-local-storage.css">
+</head>
+
+<body>
+    <div class="shadow">
+        <header class="main-header">
+            <div class="command-panel">
+                <button title="Create a new preset" id="createPresetBtn">
+                    <img class="icon" src="../icons/add-page-svgrepo-com.svg">
+                </button>
+                <button title="Clear localstorage" id="clearLocalStorageBtn">
+                    <img class="icon" src="../icons/clear-svgrepo-com.svg">
+                </button>
+                <button title="Clear session storage" id="clearSessionStorageBtn">
+                    <img class="icon" src="../icons/clear-svgrepo-com.svg">
+                </button>
+                <button title="Clear Cookie" id="clearCookieBtn">
+                    <img class="icon" src="../icons/clear-svgrepo-com.svg">
+                </button>
+            </div>
+            <button title="Help" id="helpBtn">
+                <img class="icon" src="../icons/help-svgrepo-com.svg">
+            </button>
+        </header>
+    </div>
+
+    <div class="scroller">
+        <ul class="preset-list" id="presetList"></ul>
+    </div>
+
+    <div class="ad-banner"></div>
+
+    <div class="modal-full d-none" id="presetEditorModal">
+        <div id="presetEditorContent"></div>
+        <div class="modal-bottom-panel">
+            <button class="btn btn-secondary" type="button" id="closePresetEditorBtn">Cancel</button>
+            <button class="btn btn-primary" id="savePresetBtn">Save</button>
+        </div>
+    </div>
+
+    <script src="quick-local-storage.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "Quick LocalStorage",
+    "version": "0.1",
+    "description": "It's just a simple utility to quickly set, reset, or clear the local storage of the browser.",
+    "icons": {
+        "48": "icons/logo-48.png"
+    },
+    "permissions": [
+        "activeTab", "storage"
+    ],
+    "browser_action": {
+        "default_icon": "icons/logo-32.png",
+        "default_title": "Quick LocalStorage",
+        "default_popup": "popup/quick-local-storage.html"
+    }
+}
