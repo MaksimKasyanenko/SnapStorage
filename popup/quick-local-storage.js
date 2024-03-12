@@ -58,6 +58,8 @@ async function drawPresetList() {
         li.appendChild(textDiv);
 
         const btnContainer = document.createElement('div');
+        btnContainer.style.minWidth = "3rem";
+        btnContainer.style.textAlign = "right";
         li.appendChild(btnContainer);
 
         let editBtn = document.createElement('button');
@@ -98,8 +100,8 @@ function PresetEditor(title, presetData) {
     }
 
     container.innerHTML = 
-    `<h3>${title}</h3>
-    <form name='createPresetForm'>
+    `<div class="header text-light p-2">${title}</div>
+    <form name='createPresetForm' class="p-2">
         <div>
             <label>Preset name</label>
             <input type="text" name="presetName" data-id="${presetData.id}" value="${presetData.name}" />

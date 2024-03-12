@@ -26,6 +26,14 @@ h1, h2, h3, h4, h5, h6 {
     color: rgb(46, 149, 115);
 }
 
+.p-2 {
+    padding: .4rem .4rem !important;
+}
+
+.text-light {
+    color: #f9f9f9 !important;
+}
+
 button {
     margin: 0 .2rem;
 }
@@ -69,14 +77,17 @@ button.btn.btn-secondary:hover {
     background-color: rgb(163, 163, 163);
 }
 
-.main-header {
+.header {
     font-size: 0.6rem;
     background-color: rgb(37, 37, 37);
     padding: 0 .2rem;
+    margin-bottom: 1rem;
+}
+
+.main-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
 }
 
 .main-header button {
@@ -127,7 +138,6 @@ button img.icon:hover {
     right: 0;
     z-index: 2;
     box-shadow: 0 0 .4rem #34343456;
-    padding: .4rem .4rem;
     transition: all .3s;
     background-color: #f9f9f9;
 }
@@ -166,17 +176,25 @@ button img.icon:hover {
 
 ul.preset-list {
     list-style: none;
-    padding-bottom: 3.2rem;
+    padding: 0 .4rem 3.2rem .4rem;
 }
 
 ul.preset-list li {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: white;
+    box-shadow: 0 2px 4px #30303066;
+    border-radius: .4rem;
     font-size: .8rem;
     text-transform: capitalize;
-    padding: .4rem 0.8rem;
-    margin-bottom: .2rem;
+    padding: .8rem 1.2rem;
+    margin-bottom: .8rem;
+    transition: all .4s;
+}
+
+ul.preset-list li:hover {
+    box-shadow: 0 2px 6px #30303099;
 }
 
 ul.preset-list li button {
