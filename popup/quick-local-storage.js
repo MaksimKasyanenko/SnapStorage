@@ -44,6 +44,24 @@ async function drawPresetList() {
     let ul = document.getElementById('presetList');
     ul.innerHTML = '';
 
+    if(presets.length == 0) {
+        const li = document.createElement('li');
+        li.classList.add('empty-presets-message');
+        li.innerHTML = "<p class='text-center'>You don't have any preset created yet.</p>";
+
+        const centerDiv = document.createElement('div');
+        centerDiv.classList.add('text-center');
+        li.appendChild(centerDiv);
+
+        const newPresetBtn = document.createElement('button');
+        newPresetBtn.textContent = 'Create Preset';
+        newPresetBtn.classList.add('btn', 'btn-primary');
+        newPresetBtn.addEventListener('click', () => openPresetEditor('Create preset'));
+        centerDiv.appendChild(newPresetBtn);
+        
+        ul.appendChild(li);
+    }
+
     for (let i = 0; i < presets.length; i++) {
         let li = document.createElement('li');
 
@@ -102,10 +120,21 @@ function PresetEditor(title, presetData) {
     container.innerHTML = 
     `<div class="header text-light p-2">${title}</div>
     <form name='createPresetForm' class="p-2">
-        <div>
-            <label>Preset name</label>
-            <input type="text" name="presetName" data-id="${presetData.id}" value="${presetData.name}" />
+        <input type="text" 
+               class="text-bold mb-2"
+               name="presetName" 
+               placeholder="Enter name" 
+               data-id="${presetData.id}" 
+               value="${presetData.name}" />
+        
+        <div class="hstack mb-2">
+            <select class="me-2" name='storageType'></select>
+            <label style="min-width: 8rem" >
+                <input type="checkbox" ${presetData.clearStorage ? 'checked' : ''} name='clearStorage' />
+                <small>Clear storage</small>
+            </label>
         </div>
+
         <table name="presetItemTable">
             <thead>
                 <tr>
@@ -116,13 +145,7 @@ function PresetEditor(title, presetData) {
             </thead>
             <tbody></tbody>
         </table>
-        <div>
-            <select name='storageType'></select>
-            <label>
-                <input type="checkbox" ${presetData.clearStorage ? 'checked' : ''} name='clearStorage' />
-                Clear storage
-            </label>
-        </div>
+    
         <button type="button" name="addItemBtn">Add item</button>
     </form>`;
 
@@ -163,6 +186,13 @@ function PresetEditor(title, presetData) {
         }
     });
 
+    form.addEventListener('change', function() {
+        [].forEach.call(form.querySelectorAll('input'), function(inpt) {
+            if(inpt.value)
+                inpt.classList.remove('bg-danger');
+        });
+    });
+
     return container;
 }
 
@@ -186,7 +216,6 @@ function presetFromForm(form) {
     let validation = true;
 
     let presetNameInpt = form.querySelector('[name="presetName"]');
-    presetNameInpt.classList.remove('bg-danger');
     let presetName = presetNameInpt.value;
     let presetId = presetNameInpt.dataset.id;
 
@@ -198,8 +227,6 @@ function presetFromForm(form) {
     let presetItems = [];
 
     for (let itemTr of form.querySelectorAll('tbody tr')) {
-        itemTr.classList.remove('bg-danger');
-
         let keyInpt = itemTr.getElementsByTagName('input')[0];
         let valInpt = itemTr.getElementsByTagName('input')[1];
 
@@ -208,8 +235,13 @@ function presetFromForm(form) {
             val: valInpt.value
         };
 
-        if (!item.key || !item.val) {
-            itemTr.classList.add('bg-danger');
+        if (!item.key) {
+            keyInpt.classList.add('bg-danger');
+            validation = false;
+        }
+
+        if(!item.val) {
+            valInpt.classList.add('bg-danger');
             validation = false;
         }
 
