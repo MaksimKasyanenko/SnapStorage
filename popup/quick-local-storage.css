@@ -51,6 +51,11 @@ input:focus {
     box-shadow: 0px 2px 4px #30303066;
 }
 
+table input {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
 button.btn {
     background: transparent;
     color: white;
@@ -74,6 +79,30 @@ button.btn.btn-secondary {
 
 button.btn.btn-secondary:hover {
     background-color: rgb(163, 163, 163);
+}
+
+button.btn.btn-small {
+    padding: .2rem .4rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #dddddd;
+    border-bottom: 1px solid #636363;
+}
+
+th {
+    text-align: start;
+    padding: .6rem .4rem;
+    font-size: .8rem;
+}
+
+tr:nth-child(even) {
+    background-color: #e3e3e3;
 }
 
 .header {
@@ -214,17 +243,6 @@ ul.preset-list .empty-presets-message p {
     font-style: italic;
 }
 
-.ad-banner {
-    background-color: rgb(174, 174, 174);
-    margin: 0 auto;
-    height: 3rem;
-    position: fixed;
-    bottom: 0;
-    left: 5%;
-    right: 5%;
-    z-index: 2;
-}
-
 .hstack {
     display: flex;
     align-items: center;
@@ -246,6 +264,23 @@ ul.preset-list .empty-presets-message p {
     margin-bottom: .4rem;
 }
 
+.mb-4 {
+    margin-bottom: .8rem;
+}
+
 .me-2 {
     margin-right: .4rem;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.right-top {
+    top: .4rem;
+    right: .2rem;
 }

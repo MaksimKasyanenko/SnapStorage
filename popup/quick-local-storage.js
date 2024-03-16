@@ -107,10 +107,10 @@ function PresetEditor(title, presetData) {
     if(!presetData) {
         presetData = {
             id: '',
-            name: 'new preset',
+            name: '',
             items: [{
-                key: 'key',
-                val: 'value'
+                key: '',
+                val: ''
             }],
             clearStorage: false,
             storageType: "local"
@@ -127,7 +127,7 @@ function PresetEditor(title, presetData) {
                data-id="${presetData.id}" 
                value="${presetData.name}" />
         
-        <div class="hstack mb-2">
+        <div class="hstack mb-4">
             <select class="me-2" name='storageType'></select>
             <label style="min-width: 8rem" >
                 <input type="checkbox" ${presetData.clearStorage ? 'checked' : ''} name='clearStorage' />
@@ -135,18 +135,22 @@ function PresetEditor(title, presetData) {
             </label>
         </div>
 
-        <table name="presetItemTable">
-            <thead>
-                <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                    <th></th>
-                </tr>
-            </thead>
+        <div class="position-relative">
+            <button class="btn btn-primary btn-small position-absolute right-top" type="button" name="addItemBtn">
+                <small class="text-light">Add item</small>
+            </button>
+
+            <table name="presetItemTable">
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                        <th></th>
+                    </tr>
+                </thead>
             <tbody></tbody>
         </table>
-    
-        <button type="button" name="addItemBtn">Add item</button>
+        </div>
     </form>`;
 
     let tbody = container.querySelector('tbody');
@@ -205,7 +209,10 @@ function createNewPresetItem(key, val) {
     let delBtn = document.createElement('button');
     delBtn.type = 'button';
     delBtn.textContent = 'X';
-    delBtn.addEventListener('click', () => tr.remove());
+    delBtn.addEventListener('click', function() {
+        if(tr.parentElement.children.length > 1)
+            tr.remove();
+    });
     thirdTD.appendChild(delBtn);
     tr.appendChild(thirdTD);
 
