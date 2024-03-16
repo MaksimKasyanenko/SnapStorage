@@ -19,11 +19,12 @@ html {
 
 body {
     position: relative;
-    width: 400px;
+    width: 600px;
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: rgb(46, 149, 115);
+    margin: 0;
 }
 
 .text-light {
@@ -136,7 +137,6 @@ button img.icon:hover {
 .command-panel {
     display: flex;
     align-items: stretch;
-    justify-content: space-between;
     padding: 0.1rem 0.2rem;
 }
 
@@ -256,6 +256,10 @@ ul.preset-list .empty-presets-message p {
     font-weight: bold !important;
 }
 
+.p-0 {
+    padding: 0 !important;
+}
+
 .p-2 {
     padding: .4rem .4rem !important;
 }
@@ -268,8 +272,16 @@ ul.preset-list .empty-presets-message p {
     margin-bottom: .8rem;
 }
 
+.mb-5 {
+    margin-bottom: 1rem;
+}
+ 
 .me-2 {
     margin-right: .4rem;
+}
+
+.ms-auto {
+    margin-left: auto;
 }
 
 .position-relative {

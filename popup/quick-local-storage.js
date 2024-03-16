@@ -76,18 +76,18 @@ async function drawPresetList() {
         li.appendChild(textDiv);
 
         const btnContainer = document.createElement('div');
-        btnContainer.style.minWidth = "3rem";
+        btnContainer.style.width = "4.4rem";
         btnContainer.style.textAlign = "right";
         li.appendChild(btnContainer);
 
         let editBtn = document.createElement('button');
-        editBtn.classList.add('edit-btn');
+        editBtn.classList.add('p-0');
         editBtn.innerHTML = `<img class="icon" src="../icons/edit-03-svgrepo-com.svg">`;
         editBtn.addEventListener('click', () => openPresetEditor('Edit preset', presets[i]));
         btnContainer.appendChild(editBtn);
 
         let delBtn = document.createElement('button');
-        delBtn.classList.add('delete-btn');
+        delBtn.classList.add('p-0');
         delBtn.innerHTML = `<img class="icon" src="../icons/delete-2-svgrepo-com.svg">`;
         delBtn.addEventListener('click', async function () {
             let psets = (await browser.storage.local.get("presets")).presets;
@@ -119,7 +119,7 @@ function PresetEditor(title, presetData) {
 
     container.innerHTML = 
     `<div class="header text-light p-2">${title}</div>
-    <form name='createPresetForm' class="p-2">
+    <form name='createPresetForm' class="scroller p-2">
         <input type="text" 
                class="text-bold mb-2"
                name="presetName" 
@@ -140,7 +140,7 @@ function PresetEditor(title, presetData) {
                 <small class="text-light">Add item</small>
             </button>
 
-            <table name="presetItemTable">
+            <table name="presetItemTable" class="mb-5">
                 <thead>
                     <tr>
                         <th>Key</th>
@@ -148,8 +148,8 @@ function PresetEditor(title, presetData) {
                         <th></th>
                     </tr>
                 </thead>
-            <tbody></tbody>
-        </table>
+                <tbody></tbody>
+            </table>
         </div>
     </form>`;
 
@@ -208,7 +208,8 @@ function createNewPresetItem(key, val) {
     let thirdTD = document.createElement('td');
     let delBtn = document.createElement('button');
     delBtn.type = 'button';
-    delBtn.textContent = 'X';
+    delBtn.classList.add('btn');
+    delBtn.innerHTML = `<img class="icon" src="../icons/delete-2-svgrepo-com.svg">`;
     delBtn.addEventListener('click', function() {
         if(tr.parentElement.children.length > 1)
             tr.remove();
