@@ -8,11 +8,20 @@ async function start() {
 
 async function addListeners() {
     document.getElementById('clearLocalStorageBtn')
-        .addEventListener("click", () => sendToContentScript("clear-storage", { storageType: "local" }));
+        .addEventListener("click", () => { 
+            sendToContentScript("clear-storage", { storageType: "local" });
+            notify('The LocalStorage has been cleared.');
+         });
     document.getElementById('clearSessionStorageBtn')
-        .addEventListener("click", () => sendToContentScript("clear-storage", { storageType: "session" }));
+        .addEventListener("click", () => {
+            sendToContentScript("clear-storage", { storageType: "session" });
+            notify('The SessionStorage has been cleared.');
+        });
     document.getElementById('clearCookieBtn')
-        .addEventListener("click", () => sendToContentScript("clear-storage", { storageType: "cookie" }));
+        .addEventListener("click", () => {
+            sendToContentScript("clear-storage", { storageType: "cookie" });
+            notify('The Cookie for current tab has been cleared.');
+        });
     document.getElementById('createPresetBtn').addEventListener('click', () => openPresetEditor('Create preset'));
     document.getElementById('closePresetEditorBtn').addEventListener('click', () => closePresetEditor());
 }
@@ -44,7 +53,7 @@ async function drawPresetList() {
     let ul = document.getElementById('presetList');
     ul.innerHTML = '';
 
-    if(presets.length == 0) {
+    if (presets.length == 0) {
         const li = document.createElement('li');
         li.classList.add('empty-presets-message');
         li.innerHTML = "<p class='text-center'>You don't have any preset created yet.</p>";
@@ -58,7 +67,7 @@ async function drawPresetList() {
         newPresetBtn.classList.add('btn', 'btn-primary');
         newPresetBtn.addEventListener('click', () => openPresetEditor('Create preset'));
         centerDiv.appendChild(newPresetBtn);
-        
+
         ul.appendChild(li);
     }
 
@@ -67,12 +76,14 @@ async function drawPresetList() {
 
         let textDiv = document.createElement('div');
         textDiv.classList.add('cursor-pointer');
+        textDiv.style.width = "100%";
+        textDiv.textContent = presets[i].name;
         textDiv.addEventListener("click", async function () {
-            if(presets[i].clearStorage) 
+            if (presets[i].clearStorage)
                 sendToContentScript("clear-storage", { storageType: presets[i].storageType });
             sendToContentScript("set-to-storage", { items: presets[i].items, storageType: presets[i].storageType });
+            notify(`"${presets[i].name}" applied`);
         });
-        textDiv.textContent = presets[i].name;
         li.appendChild(textDiv);
 
         const btnContainer = document.createElement('div');
@@ -104,7 +115,7 @@ async function drawPresetList() {
 function PresetEditor(title, presetData) {
     let container = document.createElement('div');
 
-    if(!presetData) {
+    if (!presetData) {
         presetData = {
             id: '',
             name: '',
@@ -117,8 +128,8 @@ function PresetEditor(title, presetData) {
         };
     }
 
-    container.innerHTML = 
-    `<div class="header text-light p-2">${title}</div>
+    container.innerHTML =
+        `<div class="header text-light p-2">${title}</div>
     <form name='createPresetForm' class="scroller p-2">
         <input type="text" 
                class="text-bold mb-2"
@@ -140,7 +151,7 @@ function PresetEditor(title, presetData) {
                 <small class="text-light">Add item</small>
             </button>
 
-            <table name="presetItemTable" class="mb-5">
+            <table name="presetItemTable">
                 <thead>
                     <tr>
                         <th>Key</th>
@@ -151,16 +162,17 @@ function PresetEditor(title, presetData) {
                 <tbody></tbody>
             </table>
         </div>
+        <div style='height: 4rem'></div>
     </form>`;
 
     let tbody = container.querySelector('tbody');
 
-    for(let item of (presetData.items || [])) {
+    for (let item of (presetData.items || [])) {
         let itemTr = createNewPresetItem(item.key, item.val);
         tbody.appendChild(itemTr);
     }
 
-    container.querySelector('[name="addItemBtn"]').addEventListener('click', function() {
+    container.querySelector('[name="addItemBtn"]').addEventListener('click', function () {
         let newItem = createNewPresetItem();
         tbody.appendChild(newItem);
     });
@@ -168,31 +180,31 @@ function PresetEditor(title, presetData) {
     let form = container.querySelector('[name="createPresetForm"]');
 
     const storageTypeSelectBox = form.querySelector('[name="storageType"]');
-    [{type: "local", name: "LocalStorage"}, {type: "session", name: "SessionStorage"}, {type: "cookie", name: "Cookie"}]
-    .forEach(function(t) {
-        const opt = document.createElement('option');
-        opt.value = t.type;
-        opt.textContent = t.name;
-        if(t.type === presetData.storageType)
-            opt.selected = true;
+    [{ type: "local", name: "LocalStorage" }, { type: "session", name: "SessionStorage" }, { type: "cookie", name: "Cookie" }]
+        .forEach(function (t) {
+            const opt = document.createElement('option');
+            opt.value = t.type;
+            opt.textContent = t.name;
+            if (t.type === presetData.storageType)
+                opt.selected = true;
 
-        storageTypeSelectBox.appendChild(opt);
-    });
+            storageTypeSelectBox.appendChild(opt);
+        });
 
     document.getElementById('savePresetBtn')
         .addEventListener('click', async function (e) {
-        let preset = presetFromForm(form);
+            let preset = presetFromForm(form);
 
-        if (preset) {
-            await savePreset(preset);
-            closePresetEditor();
-            await drawPresetList();
-        }
-    });
+            if (preset) {
+                await savePreset(preset);
+                closePresetEditor();
+                await drawPresetList();
+            }
+        });
 
-    form.addEventListener('change', function() {
-        [].forEach.call(form.querySelectorAll('input'), function(inpt) {
-            if(inpt.value)
+    form.addEventListener('change', function () {
+        [].forEach.call(form.querySelectorAll('input'), function (inpt) {
+            if (inpt.value)
                 inpt.classList.remove('bg-danger');
         });
     });
@@ -210,8 +222,8 @@ function createNewPresetItem(key, val) {
     delBtn.type = 'button';
     delBtn.classList.add('btn');
     delBtn.innerHTML = `<img class="icon" src="../icons/delete-2-svgrepo-com.svg">`;
-    delBtn.addEventListener('click', function() {
-        if(tr.parentElement.children.length > 1)
+    delBtn.addEventListener('click', function () {
+        if (tr.parentElement.children.length > 1)
             tr.remove();
     });
     thirdTD.appendChild(delBtn);
@@ -248,7 +260,7 @@ function presetFromForm(form) {
             validation = false;
         }
 
-        if(!item.val) {
+        if (!item.val) {
             valInpt.classList.add('bg-danger');
             validation = false;
         }
@@ -273,13 +285,13 @@ function presetFromForm(form) {
 
 async function savePreset(preset) {
     let presets = (await browser.storage.local.get("presets")).presets;
-    
+
     if (!presets)
         presets = [];
 
-    if(preset.id) {
+    if (preset.id) {
         let oldPreset = presets.find(p => p.id == preset.id);
-        if(oldPreset) {
+        if (oldPreset) {
             oldPreset.name = preset.name;
             oldPreset.items = preset.items;
             oldPreset.clearStorage = preset.clearStorage;
@@ -290,6 +302,25 @@ async function savePreset(preset) {
         preset.id = Math.random();
         presets.push(preset);
     }
-    
+
     await browser.storage.local.set({ presets });
+}
+
+
+function notify(message) {
+    if(window.notificationElement) {
+        clearTimeout(window.removeNotifTimeout);
+        window.notificationElement.remove();
+    }
+        
+    window.notificationElement = document.createElement('div');
+    window.notificationElement.classList.add('notification');
+    const p = document.createElement('p');
+    p.textContent = message;
+    window.notificationElement.appendChild(p);
+
+    document.body.appendChild(window.notificationElement);
+    window.removeNotifTimeout = setTimeout(function () {
+        window.notificationElement.remove();
+    }, 2000);
 }

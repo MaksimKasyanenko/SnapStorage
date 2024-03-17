@@ -52,6 +52,10 @@ input:focus {
     box-shadow: 0px 2px 4px #30303066;
 }
 
+input::placeholder {
+    font-style: italic;
+}
+
 table input {
     background: transparent !important;
     box-shadow: none !important;
@@ -89,6 +93,7 @@ button.btn.btn-small {
 table {
     width: 100%;
     border-collapse: collapse;
+    box-shadow: 0px 1px 2px #30303011;
 }
 
 thead {
@@ -104,6 +109,14 @@ th {
 
 tr:nth-child(even) {
     background-color: #e3e3e3;
+}
+
+td:last-child {
+    text-align: end;
+}
+
+th:first-child, td:first-child {
+    border-right: 1px solid #e9e9e9;
 }
 
 .header {
@@ -205,6 +218,46 @@ input.bg-danger::placeholder {
 
 .scroller::-webkit-scrollbar {
     display: none;
+}
+
+.notification {
+    position: fixed;
+    bottom: .2rem;
+    left: 70%;
+    right: .2rem;
+    text-align: center;
+    padding: .4rem .6rem;
+    border-radius: 6px;
+    animation-duration: 1.6s;
+    animation-name: notif;
+}
+
+.notification p {
+    color: white;
+    font-size: .6rem;
+    font-style: italic;
+}
+
+@keyframes notif {
+    0% {
+        background: rgba(46, 149, 115, 0);
+        transform: translate(-4rem);
+    }
+
+    20% {
+        background: rgba(46, 149, 115, 0.8);
+        transform: translate(0);
+    }
+
+    80% {
+        background: rgba(46, 149, 115, 0.8);
+        transform: translate(0);
+    }
+
+    100% {
+        background: rgba(46, 149, 115, 0);
+        transform: translate(4rem);
+    }
 }
 
 ul.preset-list {
