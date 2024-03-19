@@ -53,7 +53,7 @@ async function drawPresetList() {
     let ul = document.getElementById('presetList');
     ul.innerHTML = '';
 
-    if (presets.length == 0) {
+    if (!presets || presets.length == 0) {
         const li = document.createElement('li');
         li.classList.add('empty-presets-message');
         li.innerHTML = "<p class='text-center'>You don't have any preset created yet.</p>";
@@ -69,6 +69,8 @@ async function drawPresetList() {
         centerDiv.appendChild(newPresetBtn);
 
         ul.appendChild(li);
+
+        return;
     }
 
     for (let i = 0; i < presets.length; i++) {
