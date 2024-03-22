@@ -1,4 +1,4 @@
-start();
+window.addEventListener('load', start);
 
 async function start() {
     await drawPresetList();
