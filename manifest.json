@@ -13,5 +13,10 @@
         "default_icon": "icons/logo-32.png",
         "default_title": "SnapStorage",
         "default_popup": "popup/snap-storage.html"
-    }
+    },
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "maksim93012@gmail.com"
+		}
+	}
 }

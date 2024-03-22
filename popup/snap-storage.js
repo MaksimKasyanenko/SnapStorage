@@ -1,9 +1,9 @@
 start();
 
 async function start() {
-    await addListeners();
-    await browser.tabs.executeScript({ file: "/content_scripts/main.js" });
     await drawPresetList();
+    await browser.tabs.executeScript({ file: "/content_scripts/main.js" });
+    await addListeners();
 }
 
 async function addListeners() {
@@ -94,14 +94,14 @@ async function drawPresetList() {
         li.appendChild(btnContainer);
 
         let editBtn = document.createElement('button');
-        editBtn.classList.add('p-0');
-        editBtn.innerHTML = `<img class="icon" src="../icons/edit-03-svgrepo-com.svg">`;
+        editBtn.classList.add('p-0', 'me-1');
+        editBtn.innerHTML = `<img class="icon" src="../icons/edit-ui-svgrepo-com.svg">`;
         editBtn.addEventListener('click', () => openPresetEditor('Edit preset', presets[i]));
         btnContainer.appendChild(editBtn);
 
         let delBtn = document.createElement('button');
         delBtn.classList.add('p-0');
-        delBtn.innerHTML = `<img class="icon" src="../icons/delete-2-svgrepo-com.svg">`;
+        delBtn.innerHTML = `<img class="icon" src="../icons/delete-svgrepo-com.svg">`;
         delBtn.addEventListener('click', async function () {
             if(!confirm('Are you sure you want to permanently delete this preset?')) return;
             let psets = (await browser.storage.local.get("presets")).presets;
