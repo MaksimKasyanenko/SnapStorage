@@ -224,7 +224,7 @@ function createNewPresetItem(key, val) {
     let delBtn = document.createElement('button');
     delBtn.type = 'button';
     delBtn.classList.add('btn');
-    delBtn.innerHTML = `<img class="icon" src="../icons/delete-2-svgrepo-com.svg">`;
+    delBtn.innerHTML = `<img class="icon" src="/icons/delete-svgrepo-com.svg">`;
     delBtn.addEventListener('click', function () {
         if (tr.parentElement.children.length > 1)
             tr.remove();
