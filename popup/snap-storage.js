@@ -217,14 +217,17 @@ function PresetEditor(title, presetData) {
 
 function createNewPresetItem(key, val) {
     let tr = document.createElement('tr');
-    tr.innerHTML = `<td><input type='text' placeholder='key' value="${key || ''}" /></td>
-                    <td><input type='text' placeholder='value' value="${val || ''}" /></td>`;
+    tr.appendChild(TableInput('key', key));
+    tr.appendChild(TableInput('value', val));
 
     let thirdTD = document.createElement('td');
     let delBtn = document.createElement('button');
     delBtn.type = 'button';
     delBtn.classList.add('btn');
-    delBtn.innerHTML = `<img class="icon" src="/icons/delete-svgrepo-com.svg">`;
+    const delImg = document.createElement('img');
+    delImg.classList.add('icon');
+    delImg.src = '/icons/delete-svgrepo-com.svg';
+    delBtn.appendChild(delImg);
     delBtn.addEventListener('click', function () {
         if (tr.parentElement.children.length > 1)
             tr.remove();
@@ -233,6 +236,18 @@ function createNewPresetItem(key, val) {
     tr.appendChild(thirdTD);
 
     return tr;
+}
+
+function TableInput(placeholderText, value) {
+    const inpt = document.createElement('input');
+    inpt.type = 'text';
+    inpt.placeholder = placeholderText;
+    inpt.value = value || '';
+
+    const td = document.createElement('td');
+    td.appendChild(inpt);
+
+    return td;
 }
 
 function presetFromForm(form) {

@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
     "name": "SnapStorage",
-    "version": "0.1",
-    "description": "It's a simple utility that allows you to quickly set, reset, or clear the LocalStorage, SessionStorage, and cookies in your browser.",
+    "version": "1.0",
+    "description": "SnapStorage is a convenient browser extension designed to streamline data management in your web browser. With SnapStorage, you can effortlessly save and clear data in LocalStorage, SessionStorage, and cookies with just a few clicks. The key feature of SnapStorage is the ability to create presets, allowing you to define sets of data that you frequently need to save or update. When you select a preset from the list, SnapStorage automatically handles the process of saving the specified data to the target location. Say goodbye to manual data entry and enjoy a faster, more efficient browsing experience with SnapStorage.",
     "icons": {
         "48": "icons/logo-48.png"
     },
@@ -13,10 +13,5 @@
         "default_icon": "icons/logo-32.png",
         "default_title": "SnapStorage",
         "default_popup": "popup/snap-storage.html"
-    },
-	"browser_specific_settings": {
-		"gecko": {
-			"id": "maksim93012@gmail.com"
-		}
-	}
+    }
 }
