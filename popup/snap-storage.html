@@ -17,9 +17,10 @@
             <div style="padding: .2rem;">
                 <img src="../icons/logo-32.png" style="max-width: 16px">
             </div>
-            
+
             <div class="command-panel ms-auto">
-                <button title="Create a new preset" id="createPresetBtn" class="ms-auto me-2"><strong>New preset</strong></button>
+                <button title="Create a new preset" id="createPresetBtn" class="ms-auto me-2"><strong>New
+                        preset</strong></button>
                 <button title="Clear localstorage" id="clearLocalStorageBtn">Clear LocalStorage</button>
                 <button title="Clear session storage" id="clearSessionStorageBtn">Clear SessionStorage</button>
                 <button title="Clear Cookie" id="clearCookieBtn">Clear Cookie</button>
@@ -32,7 +33,50 @@
     </div>
 
     <div class="modal-full d-none" id="presetEditorModal">
-        <div id="presetEditorContent"></div>
+        <div id="presetEditorContent">
+            <div class="header text-light p-2" id="presetEditorHeader"></div>
+            <form name='createPresetForm' class="scroller p-2">
+                <input type="hidden" id="presetId" value="" />
+                <input type="text" 
+                       class="text-bold mb-2" 
+                       name="presetName" 
+                       placeholder="Enter name" 
+                       data-id="" 
+                       value=""
+                       id="presetNameInput" />
+
+                <div class="hstack mb-4">
+                    <select class="me-2" id="storageTypeInput" name="storageType">
+                        <option value="local">LocalStorage</option>
+                        <option value="session">SessionStorage</option>
+                        <option value="cookie">Cookie</option>
+                    </select>
+                    <label style="min-width: 8rem">
+                        <input type="checkbox" name='clearStorage' id="clearStorageInput" />
+                        <small>Clear storage</small>
+                    </label>
+                </div>
+
+                <div class="position-relative">
+                    <button class="btn btn-primary btn-small position-absolute right-top" type="button"
+                        name="addItemBtn">
+                        <small class="text-light">Add item</small>
+                    </button>
+
+                    <table name="presetItemTable">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div style='height: 4rem'></div>
+            </form>
+        </div>
         <div class="modal-bottom-panel">
             <button class="btn btn-secondary" type="button" id="closePresetEditorBtn">Cancel</button>
             <button class="btn btn-primary" id="savePresetBtn">Save</button>
