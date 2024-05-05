@@ -198,18 +198,6 @@ input.bg-danger::placeholder {
     cursor: pointer;
 }
 
-.scroller {
-    height: 400px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-.scroller::-webkit-scrollbar {
-    display: none;
-}
-
 ul.preset-list {
     list-style: none;
     padding: 1rem .4rem 3.2rem .4rem;
