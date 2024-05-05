@@ -16,21 +16,19 @@
 </template>
 
 <script setup>
-    const emit = defineEmits(['notify']);
-
     function clearLocalStorage() {
         //sendToContentScript("clear-storage", { storageType: "local" });
-        emit('notify', 'The LocalStorage has been cleared.');
+        window.globalEventEmitter.emit('notify', 'The LocalStorage has been cleared.');
     }
 
     function clearSessionStorage() {
         //sendToContentScript("clear-storage", { storageType: "session" });
-        emit('notify', 'The SessionStorage has been cleared.');
+        window.globalEventEmitter.emit('notify', 'The SessionStorage has been cleared.');
     }
 
     function clearCookie() {
         //sendToContentScript("clear-storage", { storageType: "cookie" });
-        emit('notify', 'The Cookie for current tab has been cleared.');
+        window.globalEventEmitter.emit('notify', 'The Cookie for current tab has been cleared.');
     }
 </script>
 

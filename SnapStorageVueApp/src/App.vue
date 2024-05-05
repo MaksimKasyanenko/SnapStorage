@@ -1,14 +1,16 @@
 <script setup>
 import TopPanel from './components/TopPanel.vue';
 import Notification from './components/Notification.vue';
+import EventEmitter from './components/EventEmitter.vue';
 
-let notifMessage = null;
 </script>
 
 <template>
-  <TopPanel v-on:notify="m => notifMessage = m" />
+  <EventEmitter />
+  
+  <TopPanel />
 
-  <Notification v-if="notifMessage" message="notifMessage" />
+  <Notification />
 </template>
 
 <style scoped></style>

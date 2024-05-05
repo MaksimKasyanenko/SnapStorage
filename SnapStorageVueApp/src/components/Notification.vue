@@ -1,13 +1,39 @@
 <template>
-    <div class="notification">
+    <div class="notification" v-if="show">
         <p>{{ message }}</p>
     </div>
 </template>
 
 <script setup>
-defineProps({
-    message: String
-});
+    import { onMounted, ref } from 'vue';
+
+    const message = ref('');
+    const show = ref(false);
+    let timeoutId1 = null;
+    let timeoutId2 = null;
+
+    onMounted(() => {
+        window.globalEventEmitter.subscribe('notify', function(msg) {
+            show.value = false;
+            
+            if(timeoutId1)
+                clearTimeout(timeoutId1);
+
+            if(timeoutId2)
+                clearTimeout(timeoutId2);
+
+            timeoutId1 = setTimeout(() => {
+                message.value = msg;
+                show.value = true;
+            }, 100);
+
+            timeoutId2 = setTimeout(() => {
+                timeoutId1 = null;
+                timeoutId2 = null;
+                show.value = false
+            }, 2000);
+        });
+    });
 </script>
 
 <style scoped>
