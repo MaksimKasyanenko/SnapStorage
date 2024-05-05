@@ -13,22 +13,6 @@ async function start() {
 }
 
 async function addListeners() {
-    document.getElementById('clearLocalStorageBtn')
-        .addEventListener("click", () => { 
-            sendToContentScript("clear-storage", { storageType: "local" });
-            notify('The LocalStorage has been cleared.');
-         });
-    document.getElementById('clearSessionStorageBtn')
-        .addEventListener("click", () => {
-            sendToContentScript("clear-storage", { storageType: "session" });
-            notify('The SessionStorage has been cleared.');
-        });
-    document.getElementById('clearCookieBtn')
-        .addEventListener("click", () => {
-            sendToContentScript("clear-storage", { storageType: "cookie" });
-            notify('The Cookie for current tab has been cleared.');
-        });
-
     document.getElementById('createPresetBtn').addEventListener('click', () => {
         FillPresetEditor('Create preset');
         document.getElementById('presetEditorModal').classList.remove('d-none');
@@ -284,26 +268,4 @@ async function savePreset(preset) {
     }
 
     await browser.storage.local.set({ presets });
-}
-
-
-function notify(message) {
-    if(!window.contentScriptInjected) 
-        return;
-    
-    if(window.notificationElement) {
-        clearTimeout(window.removeNotifTimeout);
-        window.notificationElement.remove();
-    }
-        
-    window.notificationElement = document.createElement('div');
-    window.notificationElement.classList.add('notification');
-    const p = document.createElement('p');
-    p.textContent = message;
-    window.notificationElement.appendChild(p);
-
-    document.body.appendChild(window.notificationElement);
-    window.removeNotifTimeout = setTimeout(function () {
-        window.notificationElement.remove();
-    }, 2000);
 }

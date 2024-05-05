@@ -1,21 +1,68 @@
 <template>
   <div class="shadow">
-        <header class="header main-header">
-            <div style="padding: .2rem;">
-                <img src="../icons/logo-32.png" style="max-width: 16px">
+        <header class="header">
+            <div class="p-1">
+                <img src="../assets/logo-32.png">
             </div>
 
-            <div class="command-panel ms-auto">
-                <button title="Create a new preset" class="ms-auto me-2"><strong>New
-                        preset</strong></button>
-                <button title="Clear localstorage">Clear LocalStorage</button>
-                <button title="Clear session storage">Clear SessionStorage</button>
-                <button title="Clear Cookie">Clear Cookie</button>
+            <div class="command-panel">
+                <button title="Create a new preset"><strong>New preset</strong></button>
+                <button title="Clear localstorage" @click="clearLocalStorage">Clear LocalStorage</button>
+                <button title="Clear session storage" @click="clearSessionStorage">Clear SessionStorage</button>
+                <button title="Clear Cookie" @click="clearCookie">Clear Cookie</button>
             </div>
         </header>
     </div>
 </template>
 
-<style scoped></style>
+<script setup>
+    const emit = defineEmits(['notify']);
 
-<script setup></script>
+    function clearLocalStorage() {
+        //sendToContentScript("clear-storage", { storageType: "local" });
+        emit('notify', 'The LocalStorage has been cleared.');
+    }
+
+    function clearSessionStorage() {
+        //sendToContentScript("clear-storage", { storageType: "session" });
+        emit('notify', 'The SessionStorage has been cleared.');
+    }
+
+    function clearCookie() {
+        //sendToContentScript("clear-storage", { storageType: "cookie" });
+        emit('notify', 'The Cookie for current tab has been cleared.');
+    }
+</script>
+
+<style scoped>
+img {
+    max-width: 16px;
+}
+
+header {
+    display: flex;
+    align-items: stretch;
+}
+
+header button {
+    background: transparent;
+    border: none;
+    padding: .2rem .2rem;
+    text-align: center;
+    color: white;
+    font-size: .6rem;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+header button:hover {
+    background-color: #dddddd23;
+}
+
+.command-panel {
+    display: flex;
+    align-items: stretch;
+    padding: 0.1rem 0.2rem;
+    margin-left: auto;
+}
+</style>

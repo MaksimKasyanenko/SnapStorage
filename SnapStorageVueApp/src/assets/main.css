@@ -139,23 +139,6 @@ th:first-child, td:first-child {
     padding: 0 .4rem;
 }
 
-.main-header {
-    display: flex;
-    align-items: stretch;
-}
-
-.main-header button {
-    background: transparent;
-    border: none;
-    padding: .2rem .2rem;
-    cursor: pointer;
-    transition: all 0.5s;
-}
-
-.main-header button:hover {
-    background-color: #dddddd23;
-}
-
 img.icon {
     width: 1rem;
     height: 1rem;
@@ -164,18 +147,6 @@ img.icon {
 
 button img.icon:hover {
     transform: scale(1.2);
-}
-
-.command-panel {
-    display: flex;
-    align-items: stretch;
-    padding: 0.1rem 0.2rem;
-}
-
-.command-panel button {
-    text-align: center;
-    color: white;
-    font-size: .6rem;
 }
 
 .shadow {
@@ -239,48 +210,6 @@ input.bg-danger::placeholder {
     display: none;
 }
 
-.notification {
-    background: var(--kms-main-color);
-    position: fixed;
-    bottom: .2rem;
-    left: 70%;
-    right: .2rem;
-    text-align: center;
-    padding: .4rem .6rem;
-    border-radius: 6px;
-    opacity: 0;
-    animation-duration: 1.6s;
-    animation-name: notif;
-}
-
-.notification p {
-    color: white;
-    font-size: .6rem;
-    font-style: italic;
-}
-
-@keyframes notif {
-    0% {
-        opacity: 0;
-        transform: translate(0, 4rem);
-    }
-
-    20% {
-        opacity: 1;
-        transform: translate(0);
-    }
-
-    80% {
-        opacity: 1;
-        transform: translate(0);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(0, -4rem);
-    }
-}
-
 ul.preset-list {
     list-style: none;
     padding: 1rem .4rem 3.2rem .4rem;
@@ -332,6 +261,10 @@ ul.preset-list .empty-presets-message p {
 
 .p-0 {
     padding: 0 !important;
+}
+
+.p-1 {
+    padding: .2rem .2rem !important;
 }
 
 .p-2 {
