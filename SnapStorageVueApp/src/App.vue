@@ -3,7 +3,9 @@ import TopPanel from './components/TopPanel.vue';
 import Notification from './components/Notification.vue';
 import EventEmitter from './components/EventEmitter.vue';
 import Scroller from './components/Scroller.vue';
+import PresetList from './components/PresetList.vue';
 
+let presets = (await browser.storage.local.get("presets")).presets;
 </script>
 
 <template>
@@ -11,7 +13,7 @@ import Scroller from './components/Scroller.vue';
 
   <TopPanel />
   <Scroller>
-    <ul class="preset-list" id="presetList"></ul>
+    <PresetList presets="presets" />
   </Scroller>
 
   <Notification />

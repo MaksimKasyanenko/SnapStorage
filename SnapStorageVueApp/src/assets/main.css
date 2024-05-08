@@ -198,42 +198,6 @@ input.bg-danger::placeholder {
     cursor: pointer;
 }
 
-ul.preset-list {
-    list-style: none;
-    padding: 1rem .4rem 3.2rem .4rem;
-}
-
-ul.preset-list li:not(.empty-presets-message) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: white;
-    box-shadow: 0px 1px 2px #30303023;
-    border-radius: .4rem;
-    font-size: .8rem;
-    text-transform: capitalize;
-    padding: .8rem 1.2rem;
-    margin-bottom: .4rem;
-    transition: all .4s;
-}
-
-ul.preset-list li:not(.empty-presets-message):hover {
-    box-shadow: 0px 2px 4px #30303066;
-}
-
-ul.preset-list li button {
-    background: none;
-    border: none;
-}
-
-ul.preset-list .empty-presets-message p {
-    color: #727272;
-    font-size: .8rem;
-    margin-top: .8rem;
-    margin-bottom: .4rem;
-    font-style: italic;
-}
-
 .hstack {
     display: flex;
     align-items: center;
