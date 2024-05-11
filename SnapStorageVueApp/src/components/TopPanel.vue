@@ -6,7 +6,7 @@
             </div>
 
             <div class="command-panel">
-                <button title="Create a new preset"><strong>New preset</strong></button>
+                <button title="Create a new preset" @click="$emit('newPreset')"><strong>New preset</strong></button>
                 <button title="Clear localstorage" @click="clearLocalStorage">Clear LocalStorage</button>
                 <button title="Clear session storage" @click="clearSessionStorage">Clear SessionStorage</button>
                 <button title="Clear Cookie" @click="clearCookie">Clear Cookie</button>

@@ -1,7 +1,5 @@
-window.addEventListener('load', start);
 
 async function start() {
-    await drawPresetList();
     try {
         await browser.tabs.executeScript({ file: "/content_scripts/main.js" });
         window.contentScriptInjected = true;
@@ -12,14 +10,6 @@ async function start() {
     await addListeners();
 }
 
-async function addListeners() {
-    document.getElementById('createPresetBtn').addEventListener('click', () => {
-        FillPresetEditor('Create preset');
-        document.getElementById('presetEditorModal').classList.remove('d-none');
-    });
-    document.getElementById('closePresetEditorBtn').addEventListener('click', 
-                () => document.getElementById('presetEditorModal').classList.add('d-none'));
-}
 
 async function sendToContentScript(command, data) {
     if(!window.contentScriptInjected) {
@@ -32,19 +22,6 @@ async function sendToContentScript(command, data) {
 }
 
 function FillPresetEditor(title, presetData) {
-    if (!presetData) {
-        presetData = {
-            id: '',
-            name: '',
-            items: [{
-                key: '',
-                val: ''
-            }],
-            clearStorage: false,
-            storageType: "local"
-        };
-    }
-
     document.getElementById('presetEditorHeader').textContent = title;
     document.getElementById('presetNameInput').value = presetData.name;
     document.getElementById('presetId').value = presetData.id;

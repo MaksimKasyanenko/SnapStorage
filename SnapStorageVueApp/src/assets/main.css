@@ -166,34 +166,6 @@ input.bg-danger::placeholder {
     color: white;
 }
 
-.modal-full {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 2;
-    box-shadow: 0 0 .4rem #34343456;
-    transition: all .3s;
-    background-color: #f9f9f9;
-}
-
-.modal-full.d-none {
-    display: block !important;
-    transform: translate(0, -105%);
-}
-
-.modal-bottom-panel {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: .3rem;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-}
-
 .cursor-pointer {
     cursor: pointer;
 }

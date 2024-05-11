@@ -1,6 +1,6 @@
 <template>
-    <ul class="preset-list" v-if="props.presets && props.presets.length > 0">
-        <PresetListItem v-for="preset in props.presets" :preset="preset" :key="preset.id" />
+    <ul class="preset-list" v-if="presets && presets.length > 0">
+        <PresetListItem v-for="preset in presets" :preset="preset" :key="preset.id" />
     </ul>
     <div v-else class="empty-presets-message">
         <p>You don't have any preset created yet.</p>
@@ -11,9 +11,15 @@
 </template>
 
 <script setup>
+    import { ref } from 'vue';
     import PresetListItem from './PresetListItem.vue';
+    import { defineProps } from 'vue';
 
-    const props = defineProps(["presets"]);
+    const props = defineProps(["presetStorage"]);
+    const presetStorage = props.presetStorage;
+    const presets = ref([]);
+
+    presetStorage.loadPresets().then(res => presets.value = res);
 
     function newPreset() {
         //FillPresetEditor('Create preset');
