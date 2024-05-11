@@ -139,13 +139,13 @@ th:first-child, td:first-child {
     padding: 0 .4rem;
 }
 
-img.icon {
+.icon svg {
     width: 1rem;
     height: 1rem;
     transition: all .3s;
 }
 
-button img.icon:hover {
+button .icon:hover svg {
     transform: scale(1.2);
 }
 
