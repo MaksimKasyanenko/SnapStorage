@@ -22,7 +22,6 @@ async function sendToContentScript(command, data) {
 }
 
 function FillPresetEditor(title, presetData) {
-    document.getElementById('presetEditorHeader').textContent = title;
     document.getElementById('presetNameInput').value = presetData.name;
     document.getElementById('presetId').value = presetData.id;
     document.getElementById('storageTypeInput').value = presetData.storageType;
@@ -63,41 +62,6 @@ function FillPresetEditor(title, presetData) {
             document.getElementById('presetEditorModal').classList.add('d-none');
         }
     };
-}
-
-function createNewPresetItem(key, val) {
-    let tr = document.createElement('tr');
-    tr.appendChild(TableInput('key', key));
-    tr.appendChild(TableInput('value', val));
-
-    let thirdTD = document.createElement('td');
-    let delBtn = document.createElement('button');
-    delBtn.type = 'button';
-    delBtn.classList.add('btn');
-    const delImg = document.createElement('img');
-    delImg.classList.add('icon');
-    delImg.src = '/icons/delete-svgrepo-com.svg';
-    delBtn.appendChild(delImg);
-    delBtn.addEventListener('click', function () {
-        if (tr.parentElement.children.length > 1)
-            tr.remove();
-    });
-    thirdTD.appendChild(delBtn);
-    tr.appendChild(thirdTD);
-
-    return tr;
-}
-
-function TableInput(placeholderText, value) {
-    const inpt = document.createElement('input');
-    inpt.type = 'text';
-    inpt.placeholder = placeholderText;
-    inpt.value = value || '';
-
-    const td = document.createElement('td');
-    td.appendChild(inpt);
-
-    return td;
 }
 
 function presetFromForm(form) {

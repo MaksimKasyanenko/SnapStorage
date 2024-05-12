@@ -2,7 +2,7 @@ export class PresetRepository {
     async loadPresets() {
         //let presets = (await browser.storage.local.get("presets")).presets;
         this.presets = [];
-        return presets;
+        return this.presets;
     }
 }
 
