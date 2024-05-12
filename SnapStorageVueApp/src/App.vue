@@ -5,13 +5,16 @@ import EventEmitter from './components/EventEmitter.vue';
 import Scroller from './components/Scroller.vue';
 import TopModal from './components/TopModal.vue';
 import PresetList from './components/PresetList.vue';
-//import PresetEditorForm from './components/PresetEditorForm.vue';
-import { PresetStorage } from './PresetStorages.js';
+import PresetEditorForm from './components/PresetEditorForm.vue';
+import { PresetRepository } from './PresetStorages.js';
 import { ref } from 'vue';
 
 const modalShown = ref(false);
 const modalTitle = ref("");
-const presetStorage = new PresetStorage();
+const presetStorage = new PresetRepository();
+
+const presets = ref([]);
+presetStorage.loadPresets().then(res => presets.value = res);
 
 function openModal(title) {
   modalTitle.value = title;
@@ -24,13 +27,32 @@ function openModal(title) {
 
   <TopPanel @new-preset="() => openModal('New Preset')" />
   <Scroller>
-    <PresetList :preset-storage="presetStorage" />
+    <PresetList :presets="presets">
+      <template v-slot:placeholder>
+        <div class="empty-presets-message">
+          <p>You don't have any preset created yet.</p>
+          <div class="text-center">
+            <button class="btn btn-primary" @click="() => openModal('New Preset')">Create Preset</button>
+          </div>
+        </div>
+      </template>
+    </PresetList>
   </Scroller>
 
-  <TopModal :title="modalTitle" :open="modalShown" v-on:cancel="modalShown=false">
-    test
+  <TopModal :title="modalTitle" :open="modalShown" v-on:cancel="modalShown = false">
+    <PresetEditorForm />
   </TopModal>
+
   <Notification />
 </template>
 
-<style scoped></style>
+<style scoped>
+.empty-presets-message p {
+  color: #727272;
+  font-size: .8rem;
+  margin-top: .8rem;
+  margin-bottom: .4rem;
+  font-style: italic;
+  text-align: center;
+}
+</style>

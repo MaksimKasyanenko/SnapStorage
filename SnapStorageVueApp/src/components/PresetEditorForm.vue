@@ -16,8 +16,8 @@ if (!props.presetData) {
 </script>
 
 <template>
-    <form name='createPresetForm' class="scroller p-2">
-        <input type="hidden" id="presetId" value="" />
+    <form class="scroller p-2">
+        <input type="hidden" value="" />
         <input type="text" class="text-bold mb-2" name="presetName" placeholder="Enter name" data-id="" value=""
             id="presetNameInput" />
 
