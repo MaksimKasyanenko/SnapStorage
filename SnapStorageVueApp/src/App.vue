@@ -14,15 +14,15 @@ const presetStorage = new PresetRepository();
 const presets = ref([]);
 presetStorage.loadPresets().then(res => presets.value = res);
 
-const presetFormData = ref({});
+const presetFormBoof = ref({});
 
-function openPresetEditor(preset) {
-  if(preset) {
-    presetFormData.value = preset;
+function openPresetEditor(presetId) {
+  if(presetId) {
+    presetFormBoof.value = presets.value.find(p => p.id == presetId);
   } else {
-    presetFormData.value = {
+    presetFormBoof.value = {
         id: '',
-        name: 'test test',
+        name: '',
         items: [{
             key: '',
             val: ''
@@ -33,6 +33,15 @@ function openPresetEditor(preset) {
   }
 
   modalShown.value = true;
+}
+
+function savePreset() {
+  presetStorage.savePreset(presetFormBoof.value)
+    .then(() => {
+      presetFormBoof.value = {};
+      modalShown.value = false;
+      presetStorage.loadPresets().then(res => presets.value = res);
+    });
 }
 </script>
 
@@ -54,8 +63,9 @@ function openPresetEditor(preset) {
     </PresetList>
   </Scroller>
 
-  <PresetEditorForm   v-model:preset-data="presetFormData"
-                      v-model:open="modalShown" />
+  <PresetEditorForm   v-model:preset-data="presetFormBoof"
+                      v-model:open="modalShown"
+                      @save="savePreset()" />
 
   <Notification />
 </template>

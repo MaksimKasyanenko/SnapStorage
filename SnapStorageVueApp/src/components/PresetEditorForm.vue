@@ -1,11 +1,18 @@
 <script setup>
-import { ref } from 'vue';
 import DeleteIcon from './icons/DeleteIcon.vue';
 
 const preset = defineModel("presetData");
 const isOpen = defineModel("open");
 
 const modalTitle = preset.value.id ? "Edit Preset" : "New Preset";
+
+function addItem() {
+    preset.value.items.push({ key: "", val: "" });
+}
+
+function deleteItem(index) {
+    preset.value.items = preset.value.items.filter((item, i) => i != index)
+}
 </script>
 
 <template>
@@ -30,7 +37,7 @@ const modalTitle = preset.value.id ? "Edit Preset" : "New Preset";
                 </div>
 
                 <div class="position-relative">
-                    <button class="btn btn-primary btn-small position-absolute right-top" type="button">
+                    <button class="btn btn-primary btn-small position-absolute right-top" type="button" @click="addItem()">
                         <small class="text-light">Add item</small>
                     </button>
 
@@ -43,15 +50,15 @@ const modalTitle = preset.value.id ? "Edit Preset" : "New Preset";
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in preset.items">
+                            <tr v-for="(item, index) in preset.items">
                                 <td>
-                                    <input type="text" placeholder="key" :value="item.key" />
+                                    <input type="text" placeholder="key" v-model="item.key" />
                                 </td>
                                 <td>
-                                    <input type="text" placeholder="value" :value="item.val" />
+                                    <input type="text" placeholder="value" v-model="item.val" />
                                 </td>
                                 <td>
-                                    <button type="button" class="btn">
+                                    <button type="button" class="btn" @click="deleteItem(index)">
                                         <DeleteIcon />
                                     </button>
                                 </td>
