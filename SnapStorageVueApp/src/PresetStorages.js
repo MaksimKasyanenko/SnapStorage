@@ -29,6 +29,12 @@ export class PresetRepository {
         this.presets = presets;
         //await browser.storage.local.set({ presets });
     }
+
+    async delete(presetId) {
+        let presets = await this.loadPresets();
+        presets = presets.filter(p => p.id != presetId);
+        this.presets = presets;
+    }
 }
 
 /*

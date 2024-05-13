@@ -3,6 +3,7 @@ import EditIcon from './icons/EditIcon.vue';
 import DeleteIcon from './icons/DeleteIcon.vue';
 
 const props = defineProps(['preset']);
+const emit = defineEmits(['edit', 'delete']);
 
 async function onPresetClick() {
     if (props.preset.clearStorage) {
@@ -14,16 +15,14 @@ async function onPresetClick() {
 }
 
 function onEditButtonClick() {
-    //FillPresetEditor('Edit preset', presets[i]);
-    //document.getElementById('presetEditorModal').classList.remove('d-none');
+    emit('edit', props.preset.id);
 }
 
 async function onDeleteButtonClick() {
-    if(!confirm('Are you sure you want to permanently delete this preset?')) return;
-    //let psets = (await browser.storage.local.get("presets")).presets;
-    //psets.splice(i, 1);
-    //await browser.storage.local.set({ presets: psets });
-    //drawPresetList();
+    if(!confirm('Are you sure you want to permanently delete this preset?')) 
+        return;
+
+    emit('delete', props.preset.id);
 }
 </script>
 

@@ -43,6 +43,12 @@ function savePreset() {
       presetStorage.loadPresets().then(res => presets.value = res);
     });
 }
+
+function deletePreset(presetId) {
+  presetStorage.delete(presetId).then(() => {
+    presetStorage.loadPresets().then(res => presets.value = res);
+  });
+}
 </script>
 
 <template>
@@ -51,7 +57,7 @@ function savePreset() {
   <TopPanel @new-preset="() => openPresetEditor()" />
 
   <Scroller>
-    <PresetList :presets="presets">
+    <PresetList :presets="presets" @delete="deletePreset" @edit="id => openPresetEditor(id)">
       <template v-slot:placeholder>
         <div class="empty-presets-message">
           <p>You don't have any preset created yet.</p>
