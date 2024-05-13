@@ -7,29 +7,16 @@
 
             <div class="command-panel">
                 <button title="Create a new preset" @click="$emit('newPreset')"><strong>New preset</strong></button>
-                <button title="Clear localstorage" @click="clearLocalStorage">Clear LocalStorage</button>
-                <button title="Clear session storage" @click="clearSessionStorage">Clear SessionStorage</button>
-                <button title="Clear Cookie" @click="clearCookie">Clear Cookie</button>
+                <button title="Clear localstorage" @click="$emit('clear', 'local')">Clear LocalStorage</button>
+                <button title="Clear session storage" @click="$emit('clear', 'session')">Clear SessionStorage</button>
+                <button title="Clear Cookie" @click="$emit('clear', 'cookie')">Clear Cookie</button>
             </div>
         </header>
     </div>
 </template>
 
 <script setup>
-    function clearLocalStorage() {
-        //sendToContentScript("clear-storage", { storageType: "local" });
-        window.globalEventEmitter.emit('notify', 'The LocalStorage has been cleared.');
-    }
-
-    function clearSessionStorage() {
-        //sendToContentScript("clear-storage", { storageType: "session" });
-        window.globalEventEmitter.emit('notify', 'The SessionStorage has been cleared.');
-    }
-
-    function clearCookie() {
-        //sendToContentScript("clear-storage", { storageType: "cookie" });
-        window.globalEventEmitter.emit('notify', 'The Cookie for current tab has been cleared.');
-    }
+    
 </script>
 
 <style scoped>

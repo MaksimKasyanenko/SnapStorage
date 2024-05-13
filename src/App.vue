@@ -8,27 +8,26 @@ import PresetEditorForm from './components/PresetEditorForm.vue';
 import { PresetRepository } from './PresetStorages.js';
 import { ref } from 'vue';
 
-const modalShown = ref(false);
 const presetStorage = new PresetRepository();
-
 const presets = ref([]);
+const presetFormBoof = ref({});
+const modalShown = ref(false);
+
 presetStorage.loadPresets().then(res => presets.value = res);
 
-const presetFormBoof = ref({});
-
 function openPresetEditor(presetId) {
-  if(presetId) {
+  if (presetId) {
     presetFormBoof.value = presets.value.find(p => p.id == presetId);
   } else {
     presetFormBoof.value = {
-        id: '',
-        name: '',
-        items: [{
-            key: '',
-            val: ''
-        }],
-        clearStorage: false,
-        storageType: "local"
+      id: '',
+      name: '',
+      items: [{
+        key: '',
+        val: ''
+      }],
+      clearStorage: false,
+      storageType: "local"
     };
   }
 
@@ -49,12 +48,25 @@ function deletePreset(presetId) {
     presetStorage.loadPresets().then(res => presets.value = res);
   });
 }
+
+function clearStorage(storageType) {
+  let message = "";
+
+  switch (storageType) {
+    case "local": message = "The LocalStorage has been cleared."; break;
+    case "session": message = "The SessionStorage has been cleared."; break;
+    case "cookie": message = "The Cookie has been cleared."; break;
+    default: throw new Error("Unknown storage type.");
+  }
+  //sendToContentScript("clear-storage", { storageType: storageType });
+  window.globalEventEmitter.emit('notify', message);
+}
 </script>
 
 <template>
   <EventEmitter />
 
-  <TopPanel @new-preset="() => openPresetEditor()" />
+  <TopPanel @new-preset="() => openPresetEditor()" @clear="clearStorage" />
 
   <Scroller>
     <PresetList :presets="presets" @delete="deletePreset" @edit="id => openPresetEditor(id)">
@@ -69,9 +81,7 @@ function deletePreset(presetId) {
     </PresetList>
   </Scroller>
 
-  <PresetEditorForm   v-model:preset-data="presetFormBoof"
-                      v-model:open="modalShown"
-                      @save="savePreset()" />
+  <PresetEditorForm v-model:preset-data="presetFormBoof" v-model:open="modalShown" @save="savePreset()" />
 
   <Notification />
 </template>
