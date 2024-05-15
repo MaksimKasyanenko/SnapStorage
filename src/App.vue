@@ -49,6 +49,15 @@ function deletePreset(presetId) {
   });
 }
 
+function applyPreset(id) {
+  if (props.preset.clearStorage) {
+        //sendToContentScript("clear-storage", { storageType: presets[i].storageType });
+    }
+                
+    //sendToContentScript("set-to-storage", { items: presets[i].items, storageType: presets[i].storageType });
+    window.globalEventEmitter.emit('notify', `"${props.preset.name}" applied`);
+}
+
 function clearStorage(storageType) {
   let message = "";
 
@@ -69,7 +78,7 @@ function clearStorage(storageType) {
   <TopPanel @new-preset="() => openPresetEditor()" @clear="clearStorage" />
 
   <Scroller>
-    <PresetList :presets="presets" @delete="deletePreset" @edit="id => openPresetEditor(id)">
+    <PresetList :presets="presets" @delete="deletePreset" @edit="id => openPresetEditor(id)" @apply="applyPreset">
       <template v-slot:placeholder>
         <div class="empty-presets-message">
           <p>You don't have any preset created yet.</p>

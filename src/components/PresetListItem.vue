@@ -3,15 +3,10 @@ import EditIcon from './icons/EditIcon.vue';
 import DeleteIcon from './icons/DeleteIcon.vue';
 
 const props = defineProps(['preset']);
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(['edit', 'delete', 'apply']);
 
 async function onPresetClick() {
-    if (props.preset.clearStorage) {
-        //sendToContentScript("clear-storage", { storageType: presets[i].storageType });
-    }
-                
-    //sendToContentScript("set-to-storage", { items: presets[i].items, storageType: presets[i].storageType });
-    window.globalEventEmitter.emit('notify', `"${props.preset.name}" applied`);
+    emit('apply', props.preset.id);
 }
 
 function onEditButtonClick() {
