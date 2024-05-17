@@ -1,9 +1,3 @@
-<template>
-    <div class="notification" v-if="show">
-        <p>{{ message }}</p>
-    </div>
-</template>
-
 <script setup>
     import { onMounted, ref } from 'vue';
 
@@ -35,6 +29,12 @@
         });
     });
 </script>
+
+<template>
+    <div class="notification" v-if="show">
+        <p>{{ message }}</p>
+    </div>
+</template>
 
 <style scoped>
 .notification {

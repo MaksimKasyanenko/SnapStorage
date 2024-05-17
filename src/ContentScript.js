@@ -1,7 +1,12 @@
 export class ContentScript {
+    constructor(testMode) {
+        this.testMode = testMode;
+    }
+
     async inject() {
         try {
-            await browser.tabs.executeScript({ file: "/content_scripts/main.js" });
+            if(!this.testMode)
+                await browser.tabs.executeScript({ file: "/content_scripts/main.js" });
             this.contentScriptInjected = true;
         }
         catch {
@@ -14,8 +19,10 @@ export class ContentScript {
             alert("This web page's policies forbid this action :(");
             return;
         }
-    
-        let tabs = await browser.tabs.query({ active: true, currentWindow: true });
-        browser.tabs.sendMessage(tabs[0].id, { command: command, ...data });
+
+        if(!this.testMode) {
+            let tabs = await browser.tabs.query({ active: true, currentWindow: true });
+            browser.tabs.sendMessage(tabs[0].id, { command: command, ...data });
+        }
     }
 }
