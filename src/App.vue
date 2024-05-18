@@ -5,12 +5,12 @@ import EventEmitter from './components/EventEmitter.vue';
 import Scroller from './components/Scroller.vue';
 import PresetList from './components/PresetList.vue';
 import PresetEditorForm from './components/PresetEditorForm.vue';
-import { PresetRepository } from './PresetStorages.js';
+import { createPresetStorage } from './PresetStorages.js';
 import { ref } from 'vue';
 import { ContentScript } from './ContentScript';
 
 const testMode = true;
-const presetStorage = new PresetRepository();
+const presetStorage = createPresetStorage(testMode);
 const contentScript = new ContentScript(testMode);
 const presets = ref([]);
 const presetFormBoof = ref({});

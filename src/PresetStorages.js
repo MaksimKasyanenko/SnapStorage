@@ -1,6 +1,41 @@
 export class PresetRepository {
     async loadPresets() {
-        //let presets = (await browser.storage.local.get("presets")).presets;
+        return (await browser.storage.local.get("presets")).presets;
+    }
+
+    async savePreset(preset) {
+        let presets = await this.loadPresets();
+    
+        if (!presets)
+            presets = [];
+    
+        if (preset.id) {
+            let oldPreset = presets.find(p => p.id == preset.id);
+            if (oldPreset) {
+                oldPreset.name = preset.name;
+                oldPreset.items = preset.items;
+                oldPreset.clearStorage = preset.clearStorage;
+                oldPreset.storageType = preset.storageType;
+            } else {
+                throw new Error(`Preset [${preset.id}] not found.`);
+            }
+        } else {
+            preset.id = Math.random();
+            presets.push(preset);
+        }
+
+        await browser.storage.local.set({ presets });
+    }
+
+    async delete(presetId) {
+        let presets = await this.loadPresets();
+        presets = presets.filter(p => p.id != presetId);
+        await browser.storage.local.set({ presets });
+    }
+}
+
+export class TestPresetRepository {
+    async loadPresets() {
         this.presets = this.presets ? [...this.presets] : [];
         return this.presets;
     }
@@ -27,7 +62,6 @@ export class PresetRepository {
         }
 
         this.presets = presets;
-        //await browser.storage.local.set({ presets });
     }
 
     async delete(presetId) {
@@ -35,6 +69,13 @@ export class PresetRepository {
         presets = presets.filter(p => p.id != presetId);
         this.presets = presets;
     }
+}
+
+export function createPresetStorage(test) {
+    if(test)
+        return new TestPresetRepository();
+    else
+        return new PresetRepository();
 }
 
 /*
