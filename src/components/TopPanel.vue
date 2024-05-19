@@ -2,7 +2,7 @@
   <div class="shadow">
         <header class="header">
             <div class="p-1">
-                <img src="../assets/logo-32.png">
+                <img src="../../public/logo-32.png">
             </div>
 
             <div class="command-panel">
