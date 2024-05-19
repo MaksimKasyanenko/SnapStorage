@@ -4,14 +4,16 @@
     "version": "1.1",
     "description": "SnapStorage is a convenient browser extension designed to streamline data management in your web browser. With SnapStorage, you can effortlessly save and clear data in LocalStorage, SessionStorage, and cookies with just a few clicks. The key feature of SnapStorage is the ability to create presets, allowing you to define sets of data that you frequently need to save or update. When you select a preset from the list, SnapStorage automatically handles the process of saving the specified data to the target location. Say goodbye to manual data entry and enjoy a faster, more efficient browsing experience with SnapStorage.",
     "icons": {
-        "48": "icons/logo-48.png"
+        "32": "logo-32.png",
+        "48": "logo-48.png",
+        "64": "logo-64.png"
     },
     "permissions": [
         "activeTab", "storage"
     ],
     "browser_action": {
-        "default_icon": "icons/logo-32.png",
+        "default_icon": "logo-32.png",
         "default_title": "SnapStorage",
-        "default_popup": "popup/snap-storage.html"
+        "default_popup": "index.html"
     }
 }
