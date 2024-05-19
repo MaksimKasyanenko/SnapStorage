@@ -21,7 +21,7 @@ presetStorage.loadPresets().then(res => presets.value = res);
 
 function openPresetEditor(presetId) {
   if (presetId) {
-    presetFormBoof.value = presets.value.find(p => p.id == presetId);
+    presetFormBoof.value = { ...(presets.value.find(p => p.id == presetId)) };
   } else {
     presetFormBoof.value = {
       id: '',
@@ -47,6 +47,11 @@ function savePreset() {
     });
 }
 
+function closeModal() {
+  presetFormBoof.value = {};
+  modalShown.value = false;
+}
+
 function deletePreset(presetId) {
   presetStorage.delete(presetId).then(() => {
     presetStorage.loadPresets().then(res => presets.value = res);
@@ -54,7 +59,7 @@ function deletePreset(presetId) {
 }
 
 async function applyPreset(id) {
-  const preset = presets.find(p => p.id === id);
+  const preset = presets.value.find(p => p.id === id);
   if(!preset)
     return;
 
@@ -63,7 +68,7 @@ async function applyPreset(id) {
     }
               
     await contentScript.execute("set-to-storage", { items: preset.items, storageType: preset.storageType });
-    window.globalEventEmitter.emit('notify', `"${props.preset.name}" applied`);
+    window.globalEventEmitter.emit('notify', `"${preset.name}" applied`);
 }
 
 async function clearStorage(storageType) {
@@ -101,7 +106,8 @@ async function clearStorage(storageType) {
 
   <PresetEditorForm v-model:preset-data="presetFormBoof" 
                     v-model:open="modalShown" 
-                    @save="savePreset()" />
+                    @save="savePreset()"
+                    @close="closeModal()" />
 
   <Notification />
 </template>

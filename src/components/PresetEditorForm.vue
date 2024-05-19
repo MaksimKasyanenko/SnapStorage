@@ -1,8 +1,11 @@
 <script setup>
 import DeleteIcon from './icons/DeleteIcon.vue';
+import { ref } from 'vue';
 
 const preset = defineModel("presetData");
 const isOpen = defineModel("open");
+const emit = defineEmits(['save', 'close']);
+const hasInvalid = ref(false);
 
 const modalTitle = preset.value.id ? "Edit Preset" : "New Preset";
 
@@ -13,6 +16,18 @@ function addItem() {
 function deleteItem(index) {
     preset.value.items = preset.value.items.filter((item, i) => i != index)
 }
+
+function validateAndSave() {
+    if(preset.value.name && preset.value.items.every(i => !!i.key))
+        emit('save');
+    else
+        hasInvalid.value = true;
+}
+
+function closeModal() {
+    hasInvalid.value = false;
+    emit('close');
+}
 </script>
 
 <template>
@@ -20,9 +35,13 @@ function deleteItem(index) {
         <div>
             <div class="header text-light p-2">{{ modalTitle }}</div>
 
-            <form v-if="isOpen" class="scroller p-2">
+            <form v-if="isOpen" class="scroller p-2" @change="hasInvalid=false">
                 <input type="hidden" :value="preset.id" />
-                <input type="text" class="text-bold mb-2" placeholder="Enter name" v-model="preset.name" />
+                <input type="text" 
+                       class="text-bold mb-2" 
+                       :class="{'not-valid': hasInvalid && !preset.name}" 
+                       placeholder="Enter name" 
+                       v-model="preset.name" />
 
                 <div class="hstack mb-4">
                     <select class="me-2" v-model="preset.storageType">
@@ -52,7 +71,10 @@ function deleteItem(index) {
                         <tbody>
                             <tr v-for="(item, index) in preset.items">
                                 <td>
-                                    <input type="text" placeholder="key" v-model="item.key" />
+                                    <input type="text" 
+                                           placeholder="key" 
+                                           v-model="item.key"
+                                           :class="{'not-valid': hasInvalid && !item.key}"  />
                                 </td>
                                 <td>
                                     <input type="text" placeholder="value" v-model="item.val" />
@@ -71,8 +93,8 @@ function deleteItem(index) {
 
         </div>
         <div class="modal-bottom-panel">
-            <button class="btn btn-secondary" type="button" @click="isOpen = false">Cancel</button>
-            <button class="btn btn-primary" @click="$emit('save')">Save</button>
+            <button class="btn btn-secondary" type="button" @click="closeModal()">Cancel</button>
+            <button class="btn btn-primary" @click="validateAndSave()">Save</button>
         </div>
     </div>
 </template>

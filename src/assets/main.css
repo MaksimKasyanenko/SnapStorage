@@ -162,6 +162,11 @@ button .icon:hover svg {
     color: white !important;
 }
 
+.not-valid {
+    border: 1px solid var(--kms-danger-color) !important;
+    box-shadow: 0 0 4px var(--kms-danger-color) !important;
+}
+
 input.bg-danger::placeholder {
     color: white;
 }
