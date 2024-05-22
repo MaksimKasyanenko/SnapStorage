@@ -6,7 +6,7 @@ export class ContentScript {
     async inject() {
         try {
             if(!this.testMode)
-                await browser.tabs.executeScript({ file: "/content_scripts/main.js" });
+                await browser.tabs.executeScript({ file: "/content_script.js" });
             this.contentScriptInjected = true;
         }
         catch {
