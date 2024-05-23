@@ -14,12 +14,15 @@ message = {
 */
 
 (function () {
-    if (window.yoCookieUsed) {
+    console.log("Snap Storage inject");
+    if (window.snapStorageInjected) {
         return;
     }
-    window.yoCookieUsed = true;
+    window.snapStorageInjected = true;
 
     browser.runtime.onMessage.addListener(function (message) {
+        console.log(message);
+        message = JSON.parse(message);
         const storage = getStorageManager(message.storageType);
 
         if (message.command === 'set-to-storage') {

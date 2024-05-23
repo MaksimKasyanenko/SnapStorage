@@ -1,13 +1,16 @@
 export class PresetRepository {
     async loadPresets() {
-        return (await browser.storage.local.get("presets")).presets;
+        const saved = (await browser.storage.local.get("presets")).presets
+
+        if(saved && typeof saved === "object") {
+            saved = JSON.stringify(saved);
+        }
+
+        return saved ? JSON.parse(saved) : [];
     }
 
     async savePreset(preset) {
         let presets = await this.loadPresets();
-    
-        if (!presets)
-            presets = [];
     
         if (preset.id) {
             let oldPreset = presets.find(p => p.id == preset.id);
@@ -24,13 +27,17 @@ export class PresetRepository {
             presets.push(preset);
         }
 
-        await browser.storage.local.set({ presets });
+        await this.__savePresets(presets)
+    }
+
+    async __savePresets(presetArray) {
+        await browser.storage.local.set({ presets: JSON.stringify(presetArray) });
     }
 
     async delete(presetId) {
         let presets = await this.loadPresets();
         presets = presets.filter(p => p.id != presetId);
-        await browser.storage.local.set({ presets });
+        await this.__savePresets(presets);
     }
 }
 

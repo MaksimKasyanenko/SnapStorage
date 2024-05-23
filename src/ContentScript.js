@@ -7,6 +7,7 @@ export class ContentScript {
         try {
             if(!this.testMode)
                 await browser.tabs.executeScript({ file: "/content_script.js" });
+
             this.contentScriptInjected = true;
         }
         catch {
@@ -22,7 +23,8 @@ export class ContentScript {
 
         if(!this.testMode) {
             let tabs = await browser.tabs.query({ active: true, currentWindow: true });
-            browser.tabs.sendMessage(tabs[0].id, { command: command, ...data });
+            const message = JSON.stringify({ command: command, ...data });
+            await browser.tabs.sendMessage(tabs[0].id, message);
         }
     }
 }

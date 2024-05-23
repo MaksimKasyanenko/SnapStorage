@@ -65,7 +65,7 @@ async function applyPreset(id) {
 
   if (preset.clearStorage) {
         await contentScript.execute("clear-storage", { storageType: preset.storageType });
-    }
+  }
               
     await contentScript.execute("set-to-storage", { items: preset.items, storageType: preset.storageType });
     window.globalEventEmitter.emit('notify', `"${preset.name}" applied`);
