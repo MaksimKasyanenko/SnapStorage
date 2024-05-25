@@ -9,7 +9,7 @@ import { createPresetStorage } from './PresetStorages.js';
 import { ref } from 'vue';
 import { ContentScript } from './ContentScript';
 
-const testMode = false;
+const testMode = true;
 const presetStorage = createPresetStorage(testMode);
 const contentScript = new ContentScript(testMode);
 const presets = ref([]);
@@ -52,6 +52,21 @@ function closeModal() {
   modalShown.value = false;
 }
 
+function copyPreset(presetId) {
+  const preset = presets.value.find(p => p.id === presetId);
+
+  if(preset) {
+    const copy = JSON.parse(JSON.stringify(preset));
+
+    copy.id = null;
+    copy.name = copy.name + ' (copy)';
+
+    presetStorage.savePreset(copy)
+    .then(() => presetStorage.loadPresets())
+    .then(res => presets.value = res);
+  }
+}
+
 function deletePreset(presetId) {
   presetStorage.delete(presetId).then(() => {
     presetStorage.loadPresets().then(res => presets.value = res);
@@ -92,7 +107,7 @@ async function clearStorage(storageType) {
   <TopPanel @new-preset="() => openPresetEditor()" @clear="clearStorage" />
 
   <Scroller>
-    <PresetList :presets="presets" @delete="deletePreset" @edit="id => openPresetEditor(id)" @apply="applyPreset">
+    <PresetList :presets="presets" @delete="deletePreset" @edit="openPresetEditor" @apply="applyPreset" @copy="copyPreset">
       <template v-slot:placeholder>
         <div class="empty-presets-message">
           <p>You don't have any preset created yet.</p>

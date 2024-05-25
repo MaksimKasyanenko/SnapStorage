@@ -12,7 +12,8 @@ const props = defineProps(["presets"]);
                         :key="preset.id" 
                         @delete="id => $emit('delete', id)"
                         @edit="id => $emit('edit', id)"
-                        @apply="id => $emit('apply', id)" />
+                        @apply="id => $emit('apply', id)"
+                        @copy="id => $emit('copy', id)" />
     </ul>
     <div v-else>
         <slot name="placeholder"></slot>

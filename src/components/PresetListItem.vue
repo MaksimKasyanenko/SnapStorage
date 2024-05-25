@@ -1,12 +1,17 @@
 <script setup>
+import CloneIcon from './icons/CloneIcon.vue';
 import EditIcon from './icons/EditIcon.vue';
 import DeleteIcon from './icons/DeleteIcon.vue';
 
 const props = defineProps(['preset']);
-const emit = defineEmits(['edit', 'delete', 'apply']);
+const emit = defineEmits(['edit', 'delete', 'apply', 'copy']);
 
 async function onPresetClick() {
     emit('apply', props.preset.id);
+}
+
+function onCopyButtonClick() {
+    emit('copy', props.preset.id);
 }
 
 function onEditButtonClick() {
@@ -25,10 +30,13 @@ async function onDeleteButtonClick() {
 <li>
     <div class="preset-name-text" v-on:click="onPresetClick">{{ props.preset.name }}</div>
     <div class="btn-container">
-        <button class="p-0 me-1" v-on:click="onEditButtonClick">
+        <button class="p-0 me-1" title="Create copy" @click="onCopyButtonClick">
+            <CloneIcon />
+        </button>
+        <button class="p-0 me-1" title="Edit" v-on:click="onEditButtonClick">
             <EditIcon />
         </button>
-        <button class="p-0" v-on:click="onDeleteButtonClick">
+        <button class="p-0" title="Remove" v-on:click="onDeleteButtonClick">
             <DeleteIcon />
         </button>
     </div>
@@ -60,7 +68,7 @@ li:hover {
 }
 
 .btn-container {
-    width: 4.4rem;
+    width: 5rem;
     text-align: right;
 }
 

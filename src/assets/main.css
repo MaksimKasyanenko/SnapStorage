@@ -142,11 +142,11 @@ th:first-child, td:first-child {
 .icon svg {
     width: 1rem;
     height: 1rem;
-    transition: all .3s;
+    transition: all .2s;
 }
 
 button .icon:hover svg {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .shadow {
