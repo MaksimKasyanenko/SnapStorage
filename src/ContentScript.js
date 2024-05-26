@@ -27,4 +27,8 @@ export class ContentScript {
             await browser.tabs.sendMessage(tabs[0].id, message);
         }
     }
+
+    async getDataFromStorage(storageType) {
+        return [{ key: 'from', val: 'storage test 34' }, { key: 'from2', val: 'storage test 234' }];
+    }
 }

@@ -220,6 +220,10 @@ input.bg-danger::placeholder {
     margin-right: .4rem;
 }
 
+.me-3 {
+    margin-right: .6rem;
+}
+
 .ms-auto {
     margin-left: auto;
 }

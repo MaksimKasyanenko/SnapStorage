@@ -1,6 +1,7 @@
 <script setup>
 import DeleteIcon from './icons/DeleteIcon.vue';
 import { ref } from 'vue';
+import { ContentScript } from '../ContentScript.js';
 
 const preset = defineModel("presetData");
 const isOpen = defineModel("open");
@@ -13,12 +14,20 @@ function addItem() {
     preset.value.items.push({ key: "", val: "" });
 }
 
+async function fillFromStorage() {
+    const data = await new ContentScript().getDataFromStorage(preset.value.storageType);
+    let newItems = preset.value.items.filter(i => !data.some(d => d.key === i.key));
+    newItems = [...newItems, ...data];
+
+    preset.value.items = newItems;
+}
+
 function deleteItem(index) {
     preset.value.items = preset.value.items.filter((item, i) => i != index)
 }
 
 function validateAndSave() {
-    if(preset.value.name && preset.value.items.every(i => !!i.key))
+    if (preset.value.name && preset.value.items.every(i => !!i.key))
         emit('save');
     else
         hasInvalid.value = true;
@@ -35,30 +44,32 @@ function closeModal() {
         <div>
             <div class="header text-light p-2">{{ modalTitle }}</div>
 
-            <form v-if="isOpen" class="scroller p-2" @change="hasInvalid=false">
+            <form v-if="isOpen" class="scroller p-2" @change="hasInvalid = false">
                 <input type="hidden" :value="preset.id" />
-                <input type="text" 
-                       class="text-bold mb-2" 
-                       :class="{'not-valid': hasInvalid && !preset.name}" 
-                       placeholder="Enter name" 
-                       v-model="preset.name" />
+                <input type="text" class="text-bold mb-2" :class="{ 'not-valid': hasInvalid && !preset.name }"
+                    placeholder="Enter name" v-model="preset.name" />
 
-                <div class="hstack mb-4">
-                    <select class="me-2" v-model="preset.storageType">
+                <div class="hstack mb-5">
+                    <select class="me-3" v-model="preset.storageType">
                         <option value="local">LocalStorage</option>
                         <option value="session">SessionStorage</option>
                         <option value="cookie">Cookie</option>
                     </select>
                     <label style="min-width: 8rem">
-                        <input type="checkbox" v-model="preset.clearStorage" />
+                        <input class="me-1" type="checkbox" v-model="preset.clearStorage" />
                         <small>Clear storage</small>
                     </label>
                 </div>
 
                 <div class="position-relative">
-                    <button class="btn btn-primary btn-small position-absolute right-top" type="button" @click="addItem()">
-                        <small class="text-light">Add item</small>
-                    </button>
+                    <div class="position-absolute right-top">
+                        <button class="btn btn-secondary btn-small" type="button" @click="fillFromStorage()">
+                            <small>Fill from storage</small>
+                        </button>
+                        <button class="btn btn-primary btn-small" type="button" @click="addItem()">
+                            <small class="text-light">Add item</small>
+                        </button>
+                    </div>
 
                     <table>
                         <thead>
@@ -71,10 +82,8 @@ function closeModal() {
                         <tbody>
                             <tr v-for="(item, index) in preset.items">
                                 <td>
-                                    <input type="text" 
-                                           placeholder="key" 
-                                           v-model="item.key"
-                                           :class="{'not-valid': hasInvalid && !item.key}"  />
+                                    <input type="text" placeholder="key" v-model="item.key"
+                                        :class="{ 'not-valid': hasInvalid && !item.key }" />
                                 </td>
                                 <td>
                                     <input type="text" placeholder="value" v-model="item.val" />
