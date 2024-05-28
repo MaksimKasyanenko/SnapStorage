@@ -9,7 +9,7 @@ import { createPresetStorage } from './PresetStorages.js';
 import { ref } from 'vue';
 import { ContentScript } from './ContentScript';
 
-const testMode = true;
+const testMode = false;
 const presetStorage = createPresetStorage(testMode);
 const contentScript = new ContentScript(testMode);
 const presets = ref([]);

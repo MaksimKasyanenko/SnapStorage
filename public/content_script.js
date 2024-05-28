@@ -21,7 +21,6 @@ message = {
     window.snapStorageInjected = true;
 
     browser.runtime.onMessage.addListener(function (message) {
-        console.log(message);
         message = JSON.parse(message);
         const storage = getStorageManager(message.storageType);
 
@@ -30,6 +29,9 @@ message = {
         }
         else if (message.command === 'clear-storage') {
             storage.clear();
+        }
+        else if (message.command === 'getStorageData') {
+            return storage.getStorageData();
         }
     });
 
@@ -54,6 +56,18 @@ message = {
         clear() {
             localStorage.clear();
         }
+
+        getStorageData() {
+            const result = [];
+            for (const key of Object.keys(localStorage)) {
+                result.push({
+                    key: key,
+                    val: localStorage.getItem(key)
+                });
+            }
+
+            return Promise.resolve({response: JSON.stringify(result)});
+        }
     }
 
     class SessionStorageManager {
@@ -70,14 +84,14 @@ message = {
 
     class CookieStorageManager {
         addRecords(records) {
-            for(let record of records) {
-                if(!record.key) continue;
+            for (let record of records) {
+                if (!record.key) continue;
 
                 let cookieStr = `${record.key}=${encodeURIComponent(record.val || '')};`
 
-                if(record.maxAge)
+                if (record.maxAge)
                     cookieStr += `max-age=${record.maxAge}`;
-                if(record.expires)
+                if (record.expires)
                     cookieStr += `expires=${record.expires.toUTCString()}`;
 
                 document.cookie = cookieStr;
@@ -89,7 +103,7 @@ message = {
 
             for (let i = 0; i < cookies.length; i++) {
                 const cookie = cookies[i];
-                if(cookie.indexOf("=") > -1) {
+                if (cookie.indexOf("=") > -1) {
                     const name = cookie.split("=")[0].trim();
                     document.cookie = `${name}=;expires=${new Date(0).toUTCString()}`;
                 }

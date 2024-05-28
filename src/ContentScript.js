@@ -29,6 +29,9 @@ export class ContentScript {
     }
 
     async getDataFromStorage(storageType) {
-        return [{ key: 'from', val: 'storage test 34' }, { key: 'from2', val: 'storage test 234' }];
+        let tabs = await browser.tabs.query({ active: true, currentWindow: true });
+        const message = JSON.stringify({ command: 'getStorageData', storageType: storageType });
+        const resp = await browser.tabs.sendMessage(tabs[0].id, message);
+        return JSON.parse(resp.response);
     }
 }
