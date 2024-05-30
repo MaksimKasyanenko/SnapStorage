@@ -2,6 +2,7 @@
 import DeleteIcon from './icons/DeleteIcon.vue';
 import { ref } from 'vue';
 import { ContentScript } from '../ContentScript.js';
+import Scroller from './Scroller.vue';
 
 const preset = defineModel("presetData");
 const isOpen = defineModel("open");
@@ -44,62 +45,63 @@ function closeModal() {
         <div>
             <div class="header text-light p-2">{{ modalTitle }}</div>
 
-            <form v-if="isOpen" class="scroller p-2" @change="hasInvalid = false">
-                <input type="hidden" :value="preset.id" />
-                <input type="text" class="text-bold mb-2" :class="{ 'not-valid': hasInvalid && !preset.name }"
-                    placeholder="Enter name" v-model="preset.name" />
+            <Scroller>
+                <form v-if="isOpen" class="p-2" @change="hasInvalid = false">
+                    <input type="hidden" :value="preset.id" />
+                    <input type="text" class="text-bold mb-2" :class="{ 'not-valid': hasInvalid && !preset.name }"
+                        placeholder="Enter name" v-model="preset.name" />
 
-                <div class="hstack mb-5">
-                    <select class="me-3" v-model="preset.storageType">
-                        <option value="local">LocalStorage</option>
-                        <option value="session">SessionStorage</option>
-                        <option value="cookie">Cookie</option>
-                    </select>
-                    <label style="min-width: 8rem">
-                        <input class="me-1" type="checkbox" v-model="preset.clearStorage" />
-                        <small>Clear storage</small>
-                    </label>
-                </div>
-
-                <div class="position-relative">
-                    <div class="position-absolute right-top">
-                        <button class="btn btn-secondary btn-small" type="button" @click="fillFromStorage()">
-                            <small>Fill from storage</small>
-                        </button>
-                        <button class="btn btn-primary btn-small" type="button" @click="addItem()">
-                            <small class="text-light">Add item</small>
-                        </button>
+                    <div class="hstack mb-5">
+                        <select class="me-3" v-model="preset.storageType">
+                            <option value="local">LocalStorage</option>
+                            <option value="session">SessionStorage</option>
+                            <option value="cookie">Cookie</option>
+                        </select>
+                        <label style="min-width: 8rem">
+                            <input class="me-1" type="checkbox" v-model="preset.clearStorage" />
+                            <small>Clear storage</small>
+                        </label>
                     </div>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Key</th>
-                                <th>Value</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in preset.items">
-                                <td>
-                                    <input type="text" placeholder="key" v-model="item.key"
-                                        :class="{ 'not-valid': hasInvalid && !item.key }" />
-                                </td>
-                                <td>
-                                    <input type="text" placeholder="value" v-model="item.val" />
-                                </td>
-                                <td>
-                                    <button type="button" class="btn" @click="deleteItem(index)">
-                                        <DeleteIcon />
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div style='height: 4rem'></div>
-            </form>
+                    <div class="position-relative">
+                        <div class="position-absolute right-top">
+                            <button class="btn btn-secondary btn-small" type="button" @click="fillFromStorage()">
+                                <small>Fill from storage</small>
+                            </button>
+                            <button class="btn btn-primary btn-small" type="button" @click="addItem()">
+                                <small class="text-light">Add item</small>
+                            </button>
+                        </div>
 
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item, index) in preset.items">
+                                    <td>
+                                        <input type="text" placeholder="key" v-model="item.key"
+                                            :class="{ 'not-valid': hasInvalid && !item.key }" />
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder="value" v-model="item.val" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn" @click="deleteItem(index)">
+                                            <DeleteIcon />
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style='height: 4rem'></div>
+                </form>
+            </Scroller>
         </div>
         <div class="modal-bottom-panel">
             <button class="btn btn-secondary" type="button" @click="closeModal()">Cancel</button>
