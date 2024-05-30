@@ -66,7 +66,7 @@ message = {
                 });
             }
 
-            return Promise.resolve({response: JSON.stringify(result)});
+            return Promise.resolve({ response: JSON.stringify(result) });
         }
     }
 
@@ -79,6 +79,18 @@ message = {
 
         clear() {
             sessionStorage.clear();
+        }
+
+        getStorageData() {
+            const result = [];
+            for (const key of Object.keys(sessionStorage)) {
+                result.push({
+                    key: key,
+                    val: sessionStorage.getItem(key)
+                });
+            }
+
+            return Promise.resolve({ response: JSON.stringify(result) });
         }
     }
 
@@ -102,12 +114,36 @@ message = {
             const cookies = document.cookie.split(";");
 
             for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i];
-                if (cookie.indexOf("=") > -1) {
-                    const name = cookie.split("=")[0].trim();
-                    document.cookie = `${name}=;expires=${new Date(0).toUTCString()}`;
+                const cookie = this.__getKeyValPair(cookies[i]);
+                if (cookie) {
+                    document.cookie = `${cookie.key}=;expires=${new Date(0).toUTCString()}`;
                 }
             }
+        }
+
+        __getKeyValPair(cookie) {
+            let cutIndex = cookie.indexOf("=");
+            if (cutIndex < 0)
+                return null;
+
+            return {
+                key: cookie.substring(0, cutIndex++).trim(),
+                val: cutIndex >= cookie.length ? '' : cookie.substring(cutIndex)
+            };
+        }
+
+        getStorageData() {
+            const cookies = document.cookie.split(";");
+            const result = [];
+
+            for (let i = 0; i < cookies.length; i++) {
+                const c = this.__getKeyValPair(cookies[i]);
+
+                if (c)
+                    result.push(c);
+            }
+
+            return Promise.resolve({ response: JSON.stringify(result) });
         }
     }
 })();
