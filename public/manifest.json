@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "SnapStorage",
-    "version": "1.2",
+    "version": "1.21",
     "description": "SnapStorage is a simple browser extension designed for quickly filling data and clearing LocalStorage, SessionStorage, and cookies. Users can pre-configure data and save it as presets. When needed, this data can be quickly saved to the target storage by simply opening the preset list and clicking on the desired one. The extension is especially useful for web developers who frequently edit storage data or cookies during testing and debugging of web applications.",
     "icons": {
         "32": "logo-32.png",
