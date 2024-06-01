@@ -8,7 +8,7 @@ const item = defineModel("presetItem");
 <div class="cover">
     <div class="modal-center shadow p-2">
         <div class="text-end mb-1">
-            <button class="btn p-0" type="button"><CloseIcon /></button>
+            <button class="btn p-0" type="button" @click="$emit('close')"><CloseIcon /></button>
         </div>
         <input type="text" class="mb-2" placeholder="key" v-model="item.key">
         <textarea placeholder="value" rows="10" v-model="item.val"></textarea>

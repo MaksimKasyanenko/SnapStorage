@@ -42,10 +42,14 @@ function closeModal() {
 }
 
 const itemEditorOpen = ref(false);
-const itemForEditBoof = ref({key: 'test', val: 'test'});
+const itemForEditBoof = ref({});
 function openItemEditor(itemIndex) {
-    itemForEditBoof = preset.items[itemIndex];
-    itemEditorOpen = true;
+    itemForEditBoof.value = preset.value.items[itemIndex];
+    itemEditorOpen.value = true;
+}
+
+function closeItemEditor() {
+    itemEditorOpen.value = false;
 }
 </script>
 
@@ -121,7 +125,7 @@ function openItemEditor(itemIndex) {
             <button class="btn btn-primary" @click="validateAndSave()">Save</button>
         </div>
     </div>
-    <PresetItemEditor :open="itemEditorOpen" @change="" :preset-item="itemForEditBoof" />
+    <PresetItemEditor v-if="itemEditorOpen" @close="closeItemEditor" :preset-item="itemForEditBoof" />
 </template>
 
 <style scoped>
