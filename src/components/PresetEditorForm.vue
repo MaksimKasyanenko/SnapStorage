@@ -3,6 +3,8 @@ import DeleteIcon from './icons/DeleteIcon.vue';
 import { ref } from 'vue';
 import { ContentScript } from '../ContentScript.js';
 import Scroller from './Scroller.vue';
+import EditIcon from './icons/EditIcon.vue';
+import PresetItemEditor from './PresetItemEditor.vue';
 
 const preset = defineModel("presetData");
 const isOpen = defineModel("open");
@@ -37,6 +39,13 @@ function validateAndSave() {
 function closeModal() {
     hasInvalid.value = false;
     emit('close');
+}
+
+const itemEditorOpen = ref(false);
+const itemForEditBoof = ref({key: 'test', val: 'test'});
+function openItemEditor(itemIndex) {
+    itemForEditBoof = preset.items[itemIndex];
+    itemEditorOpen = true;
 }
 </script>
 
@@ -91,9 +100,13 @@ function closeModal() {
                                         <input type="text" placeholder="value" v-model="item.val" />
                                     </td>
                                     <td>
-                                        <button type="button" class="btn" @click="deleteItem(index)">
+                                        <button type="button" class="btn p-0 me-1" @click="openItemEditor(index)">
+                                            <EditIcon />
+                                        </button>
+                                        <button type="button" class="btn p-0" @click="deleteItem(index)">
                                             <DeleteIcon />
                                         </button>
+                                        <span>&nbsp;&nbsp;</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -108,6 +121,7 @@ function closeModal() {
             <button class="btn btn-primary" @click="validateAndSave()">Save</button>
         </div>
     </div>
+    <PresetItemEditor :open="itemEditorOpen" @change="" :preset-item="itemForEditBoof" />
 </template>
 
 <style scoped>
